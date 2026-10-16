@@ -1,26 +1,164 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Colors */
+  --canvas: #FFFDF7;
+  --surface: #FFFFFF;
+  --surface-translucent: rgba(255, 253, 247, 0.86);
+  --surface-container-low: #F4F3F7;
+  --surface-container: #EFEDF1;
+  --surface-container-high: #E9E7EB;
+  
+  --ink: #1A1C1E;
+  --ink-secondary: #3C4043;
+  --ink-hover: #2D3135;
+  --text-muted: #5F6368;
+  --text-dim: #80868B;
+  
+  --border-subtle: #E8EAED;
+  --border-subtle-hover: #D2D6DC;
+  
+  /* Chromatic Accents */
+  --sage: #2D6A4F;
+  --sage-bright: #34A853;
+  --sage-bg: rgba(45, 106, 79, 0.08);
+  --sage-border: rgba(45, 106, 79, 0.2);
+  
+  --amber-warm: #E08E45;
+  --amber-bright: #FBBC05;
+  --amber-bg: rgba(224, 142, 69, 0.1);
+  --amber-border: rgba(224, 142, 69, 0.25);
+  
+  --coral: #EA6A5B;
+  --coral-bg: rgba(234, 106, 91, 0.1);
+  --coral-border: rgba(234, 106, 91, 0.25);
+  
+  --primary-blue: #0058BD;
+  --primary-blue-accent: #4285F4;
+  --primary-blue-bg: rgba(66, 133, 244, 0.1);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(32, 33, 36, 0.04), 0 4px 12px rgba(32, 33, 36, 0.02);
+  --shadow-md: 0 8px 24px -4px rgba(32, 33, 36, 0.06), 0 2px 6px -1px rgba(32, 33, 36, 0.04);
+  --shadow-lg: 0 16px 40px -8px rgba(32, 33, 36, 0.08), 0 4px 12px -2px rgba(32, 33, 36, 0.03);
+  --shadow-capsule: 0 8px 30px rgba(0, 0, 0, 0.04);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #E8EAED;
+  color: var(--ink);
+}
+
+/* Custom Utilities */
+.font-display {
+  font-family: var(--font-manrope), var(--font-inter), sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+.mono-tag {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.beacon-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background-color: var(--sage);
+  display: inline-block;
+  animation: pulse-glow 2.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(45, 106, 79, 0.4);
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.85;
+    box-shadow: 0 0 0 5px rgba(45, 106, 79, 0);
+  }
+}
+
+.tech-pill {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-container-low);
+  color: var(--ink-secondary);
+  border: 1px solid rgba(232, 234, 237, 0.75);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background-color: var(--ink);
+  color: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-full);
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(26, 28, 30, 0.15);
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background-color: var(--ink-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 28, 30, 0.2);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background-color: #FFFFFF;
+  color: var(--ink);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-full);
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  background-color: #FAF9F5;
+  border-color: var(--border-subtle-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
