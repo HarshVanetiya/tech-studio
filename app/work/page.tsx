@@ -184,6 +184,7 @@ export default function WorkPage() {
                   src={item.image}
                   alt={item.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover group-hover:scale-103 transition-transform duration-600"
                 />
                 <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md border border-[#E8EAED] px-3 py-1 rounded-full font-mono text-xs text-[#1A1C1E] font-medium shadow-xs">

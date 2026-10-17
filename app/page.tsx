@@ -2,62 +2,188 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight, ArrowRight, Layers, LayoutGrid, LineChart } from 'lucide-react';
 
+// Reusable HeroHeading to ensure 100% pixel-perfect alignment between solid & water layers
+function HeroHeading({ variant, ariaHidden = false }: { variant: 'solid' | 'water'; ariaHidden?: boolean }) {
+  const isWater = variant === 'water';
+
+  return (
+    <div
+      className={`h-full flex flex-col justify-center py-5 sm:py-6 lg:py-7 pl-6 sm:pl-10 lg:pl-12 xl:pl-16 ${
+        isWater ? 'select-none pointer-events-none' : 'select-text pointer-events-none'
+      }`}
+      aria-hidden={ariaHidden}
+    >
+      <h1
+        aria-label={isWater ? undefined : 'We build products that move business forward'}
+        className="h-[88vh] flex flex-col justify-between font-display font-black tracking-[-0.045em] leading-[0.83] text-left text-[clamp(3.6rem,14.8vh,9.2vw)]"
+      >
+        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#1A1C1E] pointer-events-auto'}`}>
+          WE BUILD
+        </span>
+        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#1A1C1E] pointer-events-auto'}`}>
+          PRODUCTS
+        </span>
+        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}>
+          THAT
+        </span>
+        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}>
+          MOVE
+        </span>
+        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}>
+          BUSINESS
+        </span>
+        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}>
+          FORWARD
+        </span>
+      </h1>
+    </div>
+  );
+}
+
+// Synchronized split point between left canvas (solid typography) and right workspace visual (water-glass typography)
+const HERO_SPLIT_PERCENT = 29;
+
 export default function HomePage() {
   return (
     <div className="w-full">
       
       {/* ========================================================================
-           HERO SECTION (Full Viewport Split: 42% Left / 58% Right Full-Bleed)
-           Touches top, right, and bottom of 1st viewport
+           HERO SECTION (Editorial Magazine Layout: Full-Height Headline,
+           Calibrated 64vw Workspace Image (36% Split), and Clean Monitor Overlap)
            ======================================================================== */}
-      <section className="w-full min-h-screen lg:h-screen flex flex-col lg:flex-row items-stretch justify-between relative overflow-hidden bg-[#FFFDF7]">
-        
-        {/* Left Column (~38% / 36-38vw) */}
-        <div className="w-full lg:w-[38%] xl:w-[36%] flex flex-col justify-center px-6 sm:px-12 lg:pl-12 xl:pl-20 lg:pr-10 pt-16 pb-12 lg:py-0 order-2 lg:order-1 z-10">
-          <div className="max-w-xl">
-            {/* Headline */}
-            <h1 className="font-display font-extrabold text-5xl sm:text-6xl lg:text-[3.75rem] xl:text-[4.5rem] 2xl:text-[5rem] text-[#1A1C1E] tracking-tight leading-[1.03] mb-6">
-              We build products<br />
-              <span className="text-[#5F6368]">that move business forward.</span>
-            </h1>
+      
+      {/* ── DESKTOP VIEWPORT (lg+) ── */}
+      <section className="hidden lg:block w-full h-screen relative overflow-hidden bg-white">
 
-            {/* Body */}
-            <p className="text-base sm:text-lg lg:text-xl text-[#3C4043] leading-relaxed mb-10 max-w-lg font-normal">
+        {/* Desktop Right Visual Container:
+            Positioned at left: HERO_SPLIT_PERCENT% and right: 0 so its boundary perfectly matches
+            the text clip-path across all screen sizes and eliminates any viewport-vs-percentage scrollbar offset. */}
+        <div
+          className="absolute top-0 right-0 bottom-0 overflow-hidden bg-stone-100 z-10"
+          style={{ left: `${HERO_SPLIT_PERCENT}%` }}
+        >
+          {/* Zoomed Workspace: centers on vertical + horizontal monitors */}
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{
+              transform: 'scale(1.48)',
+              transformOrigin: '88% 32%',
+            }}
+          >
+            <Image
+              src="/assets/hero-desk.png"
+              alt="Modern web development studio workspace with code on screens"
+              fill
+              priority
+              sizes={`${100 - HERO_SPLIT_PERCENT}vw`}
+              className="object-cover object-center"
+            />
+          </div>
+
+          {/* Contrast-enhancing gradient scrim */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/20 via-26% to-transparent pointer-events-none" />
+        </div>
+
+        {/* Layer 1: Solid Ink Headline (Clipped strictly to left canvas: 0 -> HERO_SPLIT_PERCENT%, stacked at z-[1] behind the image container) */}
+        <div
+          className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
+          style={{ clipPath: `inset(0 calc(100% - ${HERO_SPLIT_PERCENT}%) 0 0)` }}
+        >
+          <HeroHeading variant="solid" />
+        </div>
+
+        {/* Layer 2: Water Glass Headline (Clipped strictly to image: HERO_SPLIT_PERCENT% -> 100%, stacked at z-20 above the image container) */}
+        <div
+          className="absolute inset-0 w-full h-full pointer-events-none z-20"
+          style={{ clipPath: `inset(0 0 0 ${HERO_SPLIT_PERCENT}%)` }}
+          aria-hidden="true"
+        >
+          <HeroHeading variant="water" ariaHidden={true} />
+        </div>
+
+        {/* Subtext Frosted Glass Card & CTA Buttons (Bottom-Right) */}
+        <div className="absolute bottom-8 right-6 sm:right-10 lg:bottom-10 lg:right-12 xl:bottom-12 xl:right-14 2xl:bottom-14 2xl:right-16 z-30 max-w-[430px] sm:max-w-[460px] lg:max-w-[480px] xl:max-w-[500px] 2xl:max-w-[540px]">
+          <div className="hero-glass-card rounded-[22px] sm:rounded-[26px] p-5 sm:p-6 lg:p-6 xl:p-7">
+            <p className="text-[#1A1C1E] text-[14.5px] sm:text-[15.5px] lg:text-[16px] xl:text-[17px] 2xl:text-[18.5px] leading-[1.6] 2xl:leading-[1.62] font-normal tracking-[-0.01em]">
               From high-performance websites to custom software, we combine thoughtful design and reliable engineering to help businesses launch, grow, and stand out.
             </p>
+          </div>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4">
-              <Link
-                href="/contact"
-                className="btn-primary text-[15px] px-7 py-4 shadow-sm"
-              >
-                <span>Start a project</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/services"
-                className="btn-secondary text-[15px] px-7 py-4"
-              >
-                <span>Explore our services</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+          <div className="flex flex-wrap items-center gap-3 sm:gap-3.5 2xl:gap-4 mt-3.5 sm:mt-4 2xl:mt-5">
+            <Link
+              href="/contact"
+              className="hero-btn-dark gap-2 text-[14px] sm:text-[14.5px] xl:text-[15.5px] 2xl:text-[16.5px] px-6 sm:px-7 2xl:px-8 h-[46px] sm:h-[48px] xl:h-[50px] 2xl:h-[54px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1A1C1E]"
+            >
+              <span>Start a project</span>
+              <ArrowUpRight className="w-4 h-4 2xl:w-[18px] 2xl:h-[18px] hero-btn-icon hero-btn-icon-diagonal" />
+            </Link>
+            <Link
+              href="/services"
+              className="hero-btn-white gap-2 text-[14px] sm:text-[14.5px] xl:text-[15.5px] 2xl:text-[16.5px] px-5 sm:px-6 2xl:px-7 h-[46px] sm:h-[48px] xl:h-[50px] 2xl:h-[54px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1A1C1E]"
+            >
+              <span>Explore our services</span>
+              <ArrowRight className="w-4 h-4 2xl:w-[18px] 2xl:h-[18px] hero-btn-icon hero-btn-icon-right" />
+            </Link>
           </div>
         </div>
 
-        {/* Right Visual Column (~62-64% touching top, right, bottom of 1st viewport) */}
-        <div className="w-full lg:w-[62%] xl:w-[64%] h-[55vh] sm:h-[65vh] lg:h-full relative overflow-hidden bg-stone-100 order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-[#E8EAED] group">
+      </section>
+
+      {/* ── MOBILE & TABLET VIEWPORT (< lg) ── */}
+      <section className="lg:hidden relative min-h-[100svh] flex flex-col justify-between p-6 sm:p-10 pt-20 sm:pt-24 pb-12 bg-white overflow-hidden">
+        {/* Soft atmospheric background visual */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden bg-stone-100 z-0 pointer-events-none opacity-30">
           <Image
             src="/assets/hero-desk.png"
-            alt="Modern web development studio workspace with code on screens"
+            alt="Modern web development studio workspace"
             fill
             priority
-            sizes="(max-width: 1024px) 100vw, 64vw"
-            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+            sizes="100vw"
+            className="object-cover object-center"
           />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-white/95" />
         </div>
 
+        {/* Mobile Headline (Clean, accessible, full-height magazine style) */}
+        <div className="relative z-10 my-auto py-4">
+          <h1
+            aria-label="We build products that move business forward"
+            className="flex flex-col font-display font-black tracking-[-0.045em] leading-[0.87] text-left text-[clamp(3rem,12.5vw,5.5rem)] select-text"
+          >
+            <span className="block text-[#1A1C1E]">WE BUILD</span>
+            <span className="block text-[#1A1C1E]">PRODUCTS</span>
+            <span className="block text-[#5F6368]">THAT</span>
+            <span className="block text-[#5F6368]">MOVE</span>
+            <span className="block text-[#5F6368]">BUSINESS</span>
+            <span className="block text-[#5F6368]">FORWARD</span>
+          </h1>
+        </div>
+
+        {/* Mobile Subtext Card & Responsive CTAs */}
+        <div className="relative z-10 w-full max-w-[500px] mt-6">
+          <div className="hero-glass-card rounded-[22px] p-5 sm:p-6 mb-4">
+            <p className="text-[#1A1C1E] text-sm sm:text-base leading-relaxed font-normal">
+              From high-performance websites to custom software, we combine thoughtful design and reliable engineering to help businesses launch, grow, and stand out.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <Link
+              href="/contact"
+              className="hero-btn-dark gap-2 text-sm px-6 h-[46px] text-center"
+            >
+              <span>Start a project</span>
+              <ArrowUpRight className="w-4 h-4 hero-btn-icon hero-btn-icon-diagonal" />
+            </Link>
+            <Link
+              href="/services"
+              className="hero-btn-white gap-2 text-sm px-5 h-[46px] text-center"
+            >
+              <span>Explore our services</span>
+              <ArrowRight className="w-4 h-4 hero-btn-icon hero-btn-icon-right" />
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* ========================================================================
@@ -148,6 +274,7 @@ export default function HomePage() {
                 src="/assets/dashboard-preview.png"
                 alt="Aetheria Cloud Mesh"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                 className="object-cover group-hover:scale-102 transition-transform duration-500"
               />
               <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm border border-[#E8EAED] px-3 py-1 rounded-full font-mono text-xs text-[#1A1C1E] font-medium">
@@ -173,6 +300,7 @@ export default function HomePage() {
                 src="/assets/services-screen.jpg"
                 alt="Kanso Design System"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                 className="object-cover group-hover:scale-102 transition-transform duration-500"
               />
               <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm border border-[#E8EAED] px-3 py-1 rounded-full font-mono text-xs text-[#1A1C1E] font-medium">
