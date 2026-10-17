@@ -75,13 +75,13 @@ export default function HomePage() {
               alt="Modern web development studio workspace with code on screens"
               fill
               priority
-              sizes={`${100 - HERO_SPLIT_PERCENT}vw`}
+              sizes="(min-width: 1024px) 71vw, 1px"
               className="object-cover object-center"
             />
           </div>
 
           {/* Contrast-enhancing gradient scrim */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/20 via-26% to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 via-24% to-transparent pointer-events-none" />
         </div>
 
         {/* Layer 1: Solid Ink Headline (Clipped strictly to left canvas: 0 -> HERO_SPLIT_PERCENT%, stacked at z-[1] behind the image container) */}
@@ -138,7 +138,7 @@ export default function HomePage() {
             alt="Modern web development studio workspace"
             fill
             priority
-            sizes="100vw"
+            sizes="(max-width: 1023px) 100vw, 1px"
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-white/95" />
