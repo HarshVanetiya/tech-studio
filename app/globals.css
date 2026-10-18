@@ -117,52 +117,6 @@ body {
   border: 1px solid rgba(232, 234, 237, 0.75);
 }
 
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  background-color: var(--ink);
-  color: #FFFFFF;
-  font-size: 0.88rem;
-  font-weight: 600;
-  padding: 0.625rem 1.25rem;
-  border-radius: var(--radius-full);
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 6px rgba(26, 28, 30, 0.15);
-  white-space: nowrap;
-}
-
-.btn-primary:hover {
-  background-color: var(--ink-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(26, 28, 30, 0.2);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  background-color: #FFFFFF;
-  color: var(--ink);
-  border: 1px solid var(--border-subtle);
-  font-size: 0.88rem;
-  font-weight: 500;
-  padding: 0.625rem 1.25rem;
-  border-radius: var(--radius-full);
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: var(--shadow-sm);
-  white-space: nowrap;
-}
-
-.btn-secondary:hover {
-  background-color: #FAF9F5;
-  border-color: var(--border-subtle-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
 /* ==========================================================================
    Hero Section Custom Styling (Figma Design Match & Enhanced Contrast)
    ========================================================================== */
@@ -239,76 +193,490 @@ body {
 }
 
 /* ==========================================================================
-   Hero CTA Buttons - Smooth Inverting Color-Swap (Raw CSS Multi-Frame Transitions)
+   Below-the-fold system (shares the hero's easing, ink and glass language)
    ========================================================================== */
 
-.hero-btn-dark,
-.hero-btn-white {
+:root {
+  --ease-studio: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+  --oak: #A9774B;
+  --oak-soft: #EADBC8;
+  --charcoal: #141516;
+}
+
+/* Scroll reveal: heavy, soft fade-up */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(6px);
+  transition:
+    opacity 1000ms var(--ease-studio),
+    transform 1000ms var(--ease-studio),
+    filter 1000ms var(--ease-studio);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* Section eyebrow: "(02) — Approach" */
+.eyebrow {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  box-sizing: border-box;
-  transition: 
-    background-color 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    color 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, background-color, color, border-color, box-shadow;
+  gap: 0.6rem;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-/* Darker button (default: dark -> hover: smooth transition to white button look) */
-.hero-btn-dark {
-  background-color: #1A1C1E;
-  color: #FFFFFF;
-  border: 1.5px solid #1A1C1E;
-  box-shadow: 0 4px 14px rgba(26, 28, 30, 0.16);
+.eyebrow::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
 }
 
-.hero-btn-dark:hover {
-  background-color: rgba(255, 255, 255, 0.98);
-  color: #1A1C1E;
-  border-color: rgba(209, 213, 219, 0.95);
-  box-shadow: 0 10px 26px -4px rgba(0, 0, 0, 0.14);
-  transform: translateY(-2px);
+/* Double-bezel shell: a machined tray holding the content plate */
+.bezel {
+  padding: 6px;
+  border-radius: 2rem;
+  background: rgba(26, 28, 30, 0.035);
+  box-shadow: 0 0 0 1px rgba(26, 28, 30, 0.06);
 }
 
-/* White button (default: frosted white -> hover: smooth transition to darker button look) */
-.hero-btn-white {
-  background-color: rgba(255, 255, 255, 0.94);
-  color: #1A1C1E;
-  border: 1.5px solid rgba(215, 218, 224, 0.9);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+.bezel-core {
+  border-radius: calc(2rem - 6px);
+  background: #FFFFFF;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(26, 28, 30, 0.04),
+    0 18px 40px -24px rgba(26, 28, 30, 0.18);
+  overflow: hidden;
 }
 
-.hero-btn-white:hover {
-  background-color: #1A1C1E;
-  color: #FFFFFF;
-  border-color: #1A1C1E;
-  box-shadow: 0 10px 26px -4px rgba(26, 28, 30, 0.28);
-  transform: translateY(-2px);
+.bezel-dark {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
-/* Icon micro-glides */
-.hero-btn-icon {
-  display: inline-block;
-  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+.bezel-dark > .bezel-core {
+  background: #1C1E20;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.hero-btn-dark:hover .hero-btn-icon-diagonal {
-  transform: translate(2px, -2px);
+/* Services index rows */
+.service-row {
+  transition: background-color 200ms ease;
 }
 
-.hero-btn-white:hover .hero-btn-icon-right {
-  transform: translateX(3px);
+.service-row .service-title {
+  transition: transform 260ms var(--ease-out-strong);
+}
+
+.service-row .service-arrow {
+  transition:
+    transform 260ms var(--ease-out-strong),
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+.service-row:active .service-arrow {
+  transform: scale(0.94);
+}
+
+/* Work cards */
+.work-card .work-visual {
+  transition: transform 600ms var(--ease-out-strong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service-row:hover {
+    background-color: #FFFFFF;
+  }
+
+  .service-row:hover .service-title {
+    transform: translateX(8px);
+    transition-duration: 380ms;
+  }
+
+  .service-row:hover .service-arrow {
+    transform: rotate(45deg);
+    background-color: var(--ink);
+    border-color: var(--ink);
+    color: #FFFFFF;
+  }
+
+  .work-card:hover .work-visual {
+    transform: scale(1.02);
+  }
+}
+
+/* In-page anchor navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Subtle paper grain for the dark manifesto band */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 
 
+
+/* ==========================================================================
+   Studio Button (.btn) — see components/ui/Button.tsx + ButtonFx.tsx
+   Fill blooms from where the cursor entered (icon well by default), the label
+   rolls, the arrow exits and re-enters. Hover motion is pointer-only; keyboard
+   focus gets the filled state instantly. In @layer components so Tailwind
+   utilities can override size per use.
+   ========================================================================== */
+
+@layer components {
+  .btn-fx {
+    display: inline-flex;
+    flex-shrink: 0;
+    transition: transform 380ms var(--ease-out-strong);
+  }
+
+  .btn-fx > .btn {
+    flex: 1;
+  }
+
+  .btn {
+    --btn-inset: 5px;
+    --btn-well-size: calc(var(--btn-h) - 2 * var(--btn-inset));
+    position: relative;
+    isolation: isolate;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9em;
+    height: var(--btn-h);
+    padding-left: var(--btn-pl);
+    padding-right: var(--btn-inset);
+    border-radius: 9999px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    box-shadow: var(--btn-shadow);
+    -webkit-tap-highlight-color: transparent;
+    /* Exit (un-hover) is faster than enter */
+    transition:
+      color 200ms ease,
+      box-shadow 260ms var(--ease-out-strong),
+      transform 160ms var(--ease-out-strong);
+  }
+
+  /* The bloom: a circle that grows from the entry point to cover the pill */
+  .btn::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: var(--bloom-x, calc(100% - var(--btn-inset) - var(--btn-well-size) / 2));
+    top: var(--bloom-y, 50%);
+    width: 280%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--btn-fill);
+    transform: translate(-50%, -50%) scale(0.02);
+    opacity: 0;
+    transition:
+      transform 260ms var(--ease-out-strong),
+      opacity 120ms ease 140ms;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn:disabled {
+    cursor: progress;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--btn-focus, #1A1C1E);
+    outline-offset: 3px;
+    color: var(--btn-fg-hover);
+  }
+
+  /* Keyboard focus: show the filled state at once, no theatrics */
+  .btn:focus-visible::before {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    transition-duration: 0ms;
+  }
+
+  .btn:focus-visible .btn-icon {
+    background: var(--btn-well-hover);
+    color: var(--btn-well-fg-hover);
+  }
+
+  /* Rolling label: two stacked copies in one grid cell */
+  .btn-label {
+    display: grid;
+    overflow: hidden;
+    line-height: 1.25;
+    animation: btn-label-swap 240ms var(--ease-out-strong);
+  }
+
+  .btn-label > span {
+    grid-area: 1 / 1;
+    transition: transform 260ms var(--ease-out-strong);
+  }
+
+  .btn-label > span:last-child {
+    transform: translateY(115%);
+  }
+
+  /* Label remounts when switching to/from "Sending…": blur bridges the swap */
+  @keyframes btn-label-swap {
+    from {
+      opacity: 0.4;
+      filter: blur(3px);
+    }
+  }
+
+  /* Icon well with an exiting / entering arrow pair */
+  .btn-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    width: var(--btn-well-size);
+    height: var(--btn-well-size);
+    border-radius: 9999px;
+    background: var(--btn-well);
+    color: var(--btn-well-fg);
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      transform 260ms var(--ease-out-strong);
+  }
+
+  .btn-icon svg {
+    grid-area: 1 / 1;
+    width: 42%;
+    height: 42%;
+    transition: transform 260ms var(--ease-out-strong);
+  }
+
+  .btn-icon-up-right .btn-arrow-next { transform: translate(-160%, 160%); }
+  .btn-icon-right .btn-arrow-next { transform: translateX(-180%); }
+
+  .btn-spinner {
+    animation: btn-spin 600ms linear infinite;
+  }
+
+  @keyframes btn-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Hover choreography — real pointers only, so taps never leave it stuck on */
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover {
+      color: var(--btn-fg-hover);
+      box-shadow: var(--btn-shadow-hover);
+      transition:
+        color 220ms ease 60ms,
+        box-shadow 420ms var(--ease-out-strong),
+        transform 160ms var(--ease-out-strong);
+    }
+
+    .btn:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      transition:
+        transform 420ms var(--ease-out-strong),
+        opacity 80ms ease;
+    }
+
+    .btn:hover .btn-label > span {
+      transition-duration: 380ms;
+    }
+
+    .btn:hover .btn-label > span:first-child { transform: translateY(-115%); }
+    .btn:hover .btn-label > span:last-child { transform: translateY(0); }
+
+    .btn:hover .btn-icon {
+      background: var(--btn-well-hover);
+      color: var(--btn-well-fg-hover);
+      transform: scale(1.06);
+    }
+
+    .btn:hover .btn-icon svg { transition-duration: 380ms; }
+    .btn-icon-up-right:hover .btn-arrow:not(.btn-arrow-next) { transform: translate(160%, -160%); }
+    .btn-icon-right:hover .btn-arrow:not(.btn-arrow-next) { transform: translateX(180%); }
+    .btn:hover .btn-arrow-next { transform: none; }
+
+    .btn:disabled:hover .btn-label > span:first-child { transform: none; }
+  }
+
+  /* Variants */
+  .btn-dark {
+    --btn-bg: #1A1C1E;
+    --btn-fg: #FFFFFF;
+    --btn-fill: #8B5D36;
+    --btn-fg-hover: #FFFFFF;
+    --btn-well: rgba(255, 255, 255, 0.12);
+    --btn-well-fg: #FFFFFF;
+    --btn-well-hover: #FFFFFF;
+    --btn-well-fg-hover: #1A1C1E;
+    --btn-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 4px 14px rgba(26, 28, 30, 0.16);
+    --btn-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 16px 32px -12px rgba(139, 93, 54, 0.55);
+  }
+
+  .btn-light {
+    --btn-bg: rgba(255, 255, 255, 0.94);
+    --btn-fg: #1A1C1E;
+    --btn-fill: #1A1C1E;
+    --btn-fg-hover: #FFFFFF;
+    --btn-well: rgba(26, 28, 30, 0.06);
+    --btn-well-fg: #1A1C1E;
+    --btn-well-hover: rgba(255, 255, 255, 0.14);
+    --btn-well-fg-hover: #FFFFFF;
+    --btn-shadow: inset 0 0 0 1px rgba(26, 28, 30, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+    --btn-shadow-hover: inset 0 0 0 1px rgba(26, 28, 30, 0), 0 16px 32px -12px rgba(26, 28, 30, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  /* Sizes */
+  .btn-sm {
+    --btn-h: 40px;
+    --btn-pl: 1.05rem;
+    --btn-inset: 4px;
+    font-size: 13px;
+  }
+
+  .btn-md {
+    --btn-h: 50px;
+    --btn-pl: 1.4rem;
+    font-size: 14px;
+  }
+
+  .btn-hero {
+    --btn-h: clamp(46px, 2.7vw, 62px);
+    --btn-pl: clamp(1.3rem, 1.35vw, 2.1rem);
+    font-size: clamp(14px, 0.8vw, 18.5px);
+  }
+
+  /* Reduced motion: keep colour feedback, drop movement */
+  @media (prefers-reduced-motion: reduce) {
+    .btn-fx,
+    .btn,
+    .btn::before,
+    .btn-label > span,
+    .btn-icon,
+    .btn-icon svg {
+      transition-property: color, background-color, box-shadow, opacity;
+    }
+
+    .btn::before {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    .btn:hover::before,
+    .btn:focus-visible::before {
+      opacity: 1;
+    }
+
+    .btn-label,
+    .btn-spinner {
+      animation: none;
+    }
+  }
+}
+
+/* Contact success check: circle then tick draw in */
+.contact-check-circle {
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: contact-draw 900ms var(--ease-studio) forwards;
+}
+
+.contact-check-mark {
+  stroke-dasharray: 36;
+  stroke-dashoffset: 36;
+  animation: contact-draw 600ms var(--ease-studio) 500ms forwards;
+}
+
+@keyframes contact-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-check-circle,
+  .contact-check-mark {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Contact form: success panel and status messages ease in rather than pop */
+@keyframes contact-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    filter: blur(4px);
+  }
+}
+
+.contact-success {
+  animation: contact-enter 420ms var(--ease-out-strong) both;
+}
+
+.contact-success > .contact-stagger {
+  animation: contact-enter 420ms var(--ease-out-strong) both;
+  animation-delay: calc(250ms + var(--i, 0) * 70ms);
+}
+
+.contact-message {
+  animation: contact-enter 260ms var(--ease-out-strong) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-success,
+  .contact-success > .contact-stagger,
+  .contact-message {
+    animation: none;
+  }
+}

@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MobileDock from '@/components/MobileDock';
+import { site } from '@/lib/site';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -26,8 +27,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'IT Studio — Editorial Engineering & Digital Architecture',
-  description: 'Independent software studio engineering high-performance digital products, distributed systems, and modern design systems from Tokyo & Zurich.',
+  title: `${site.name} — Websites, Growth & Custom Software`,
+  description: 'Design and engineering studio building websites, targeted ad campaigns, business tools and custom software — expert-led and AI-accelerated.',
   icons: {
     icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%231A1C1E"/><circle cx="16" cy="8" r="3" fill="%232D6A4F"/></svg>',
   },
