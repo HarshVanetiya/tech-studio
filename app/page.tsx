@@ -17,22 +17,40 @@ function HeroHeading({ variant, ariaHidden = false }: { variant: 'solid' | 'wate
         aria-label={isWater ? undefined : 'We build products that move business forward'}
         className="h-[88vh] flex flex-col justify-between font-display font-black tracking-[-0.045em] leading-[0.83] text-left text-[clamp(3.6rem,14.8vh,9.2vw)]"
       >
-        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#1A1C1E] pointer-events-auto'}`}>
+        <span
+          className={`block whitespace-nowrap hero-reveal-line ${isWater ? 'hero-heading-water' : 'text-[#1A1C1E] pointer-events-auto'}`}
+          style={{ '--line-i': 0 } as React.CSSProperties}
+        >
           WE BUILD
         </span>
-        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#1A1C1E] pointer-events-auto'}`}>
+        <span
+          className={`block whitespace-nowrap hero-reveal-line ${isWater ? 'hero-heading-water' : 'text-[#1A1C1E] pointer-events-auto'}`}
+          style={{ '--line-i': 1 } as React.CSSProperties}
+        >
           PRODUCTS
         </span>
-        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}>
+        <span
+          className={`block whitespace-nowrap hero-reveal-line ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}
+          style={{ '--line-i': 2 } as React.CSSProperties}
+        >
           THAT
         </span>
-        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}>
+        <span
+          className={`block whitespace-nowrap hero-reveal-line ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}
+          style={{ '--line-i': 3 } as React.CSSProperties}
+        >
           MOVE
         </span>
-        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}>
+        <span
+          className={`block whitespace-nowrap hero-reveal-line ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}
+          style={{ '--line-i': 4 } as React.CSSProperties}
+        >
           BUSINESS
         </span>
-        <span className={`block whitespace-nowrap ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}>
+        <span
+          className={`block whitespace-nowrap hero-reveal-line ${isWater ? 'hero-heading-water' : 'text-[#5F6368] pointer-events-auto'}`}
+          style={{ '--line-i': 5 } as React.CSSProperties}
+        >
           FORWARD
         </span>
       </h1>
@@ -102,7 +120,7 @@ export default function HomePage() {
         </div>
 
         {/* Subtext Frosted Glass Card & CTA Buttons (Bottom-Right) */}
-        <div className="absolute bottom-8 right-6 sm:right-10 lg:bottom-10 lg:right-12 xl:bottom-12 xl:right-14 2xl:bottom-14 2xl:right-16 z-30 max-w-[430px] sm:max-w-[460px] lg:max-w-[480px] xl:max-w-[500px] 2xl:max-w-[540px]">
+        <div className="hero-card-reveal absolute bottom-8 right-6 sm:right-10 lg:bottom-10 lg:right-12 xl:bottom-12 xl:right-14 2xl:bottom-14 2xl:right-16 z-30 max-w-[430px] sm:max-w-[460px] lg:max-w-[480px] xl:max-w-[500px] 2xl:max-w-[540px]">
           <div className="hero-glass-card rounded-[22px] sm:rounded-[26px] p-5 sm:p-6 lg:p-6 xl:p-7">
             <p className="text-[#1A1C1E] text-[14.5px] sm:text-[15.5px] lg:text-[16px] xl:text-[17px] 2xl:text-[18.5px] leading-[1.6] 2xl:leading-[1.62] font-normal tracking-[-0.01em]">
               From high-performance websites to custom software, we combine thoughtful design and reliable engineering to help businesses launch, grow, and stand out.
@@ -150,17 +168,17 @@ export default function HomePage() {
             aria-label="We build products that move business forward"
             className="flex flex-col font-display font-black tracking-[-0.045em] leading-[0.87] text-left text-[clamp(3rem,12.5vw,5.5rem)] select-text"
           >
-            <span className="block text-[#1A1C1E]">WE BUILD</span>
-            <span className="block text-[#1A1C1E]">PRODUCTS</span>
-            <span className="block text-[#5F6368]">THAT</span>
-            <span className="block text-[#5F6368]">MOVE</span>
-            <span className="block text-[#5F6368]">BUSINESS</span>
-            <span className="block text-[#5F6368]">FORWARD</span>
+            <span className="block text-[#1A1C1E] hero-reveal-line" style={{ '--line-i': 0 } as React.CSSProperties}>WE BUILD</span>
+            <span className="block text-[#1A1C1E] hero-reveal-line" style={{ '--line-i': 1 } as React.CSSProperties}>PRODUCTS</span>
+            <span className="block text-[#5F6368] hero-reveal-line" style={{ '--line-i': 2 } as React.CSSProperties}>THAT</span>
+            <span className="block text-[#5F6368] hero-reveal-line" style={{ '--line-i': 3 } as React.CSSProperties}>MOVE</span>
+            <span className="block text-[#5F6368] hero-reveal-line" style={{ '--line-i': 4 } as React.CSSProperties}>BUSINESS</span>
+            <span className="block text-[#5F6368] hero-reveal-line" style={{ '--line-i': 5 } as React.CSSProperties}>FORWARD</span>
           </h1>
         </div>
 
         {/* Mobile Subtext Card & Responsive CTAs */}
-        <div className="relative z-10 w-full max-w-[500px] mt-6">
+        <div className="hero-card-reveal relative z-10 w-full max-w-[500px] mt-6">
           <div className="hero-glass-card rounded-[22px] p-5 sm:p-6 mb-4">
             <p className="text-[#1A1C1E] text-sm sm:text-base leading-relaxed font-normal">
               From high-performance websites to custom software, we combine thoughtful design and reliable engineering to help businesses launch, grow, and stand out.

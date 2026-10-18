@@ -181,12 +181,60 @@ body {
   filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3));
 }
 
-/* Right-side glass card for subtext */
+/* Staggered Editorial Reveal for Headline Lines */
+@keyframes heroRevealFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroRevealWaterFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+}
+
+.hero-reveal-line {
+  animation: heroRevealFade 750ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc(var(--line-i, 0) * 55ms + 100ms);
+}
+
+.hero-reveal-line.hero-heading-water {
+  animation-name: heroRevealWaterFade;
+}
+
+/* Subtext Card & CTA Entrance Reveal */
+@keyframes heroCardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-card-reveal {
+  animation: heroCardReveal 800ms cubic-bezier(0.16, 1, 0.3, 1) 320ms backwards;
+}
+
+/* Right-side glass card for subtext (Refined contrast, zero blur on inner text) */
 .hero-glass-card {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.74);
   backdrop-filter: blur(28px) saturate(170%);
   -webkit-backdrop-filter: blur(28px) saturate(170%);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
 }
 
