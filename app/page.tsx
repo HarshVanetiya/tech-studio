@@ -131,9 +131,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-[clamp(0.75rem,0.85vw,1.25rem)] mt-[clamp(0.85rem,1vw,1.4rem)]">
-            <Button href="#contact" size="hero">Start a project</Button>
-            <Button href="#services" variant="light" size="hero" icon="right">Explore our services</Button>
+          <div className="grid grid-cols-[1fr_1fr] w-max gap-[clamp(0.75rem,0.85vw,1.25rem)] mt-[clamp(0.85rem,1vw,1.4rem)]">
+            <Button href="#contact" size="hero" className="justify-between">Start a project</Button>
+            <Button href="#services" variant="light" size="hero" icon="right" className="justify-between">Explore our services</Button>
           </div>
         </div>
 
