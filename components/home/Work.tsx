@@ -46,7 +46,7 @@ export default function Work() {
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <div>
             <Reveal>
-              <span className="eyebrow">(04) — Selected work</span>
+              <span className="eyebrow">Selected work</span>
             </Reveal>
             <Reveal delay={80}>
               <h2 className="mt-6 font-display font-extrabold text-[#1A1C1E] tracking-[-0.04em] leading-[0.95] text-[clamp(2.5rem,5vw,4.75rem)]">

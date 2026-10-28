@@ -27,7 +27,7 @@ export default function ClosingCta() {
             <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
               <div className="lg:col-span-6 xl:col-span-7 pt-2 lg:pt-4">
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-                  <span className="eyebrow !text-white/60">(05) — Contact</span>
+                  <span className="eyebrow !text-white/60">Contact</span>
                   <span className="inline-flex items-center gap-2 rounded-full bg-white/10 ring-1 ring-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] px-3 py-1 text-[12px] font-medium text-white/85">
                     <span className="beacon-dot !bg-[#7FC8A0]" aria-hidden="true" />
                     Taking on new projects

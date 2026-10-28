@@ -35,7 +35,7 @@ export default function Approach() {
 
       <div className="relative max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
         <Reveal>
-          <span className="eyebrow !text-white/50">(02) — Our approach</span>
+          <span className="eyebrow !text-white/50">Our approach</span>
         </Reveal>
 
         <Reveal delay={80}>

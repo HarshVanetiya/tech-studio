@@ -30,7 +30,7 @@ export default function Process() {
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           <div>
             <Reveal>
-              <span className="eyebrow">(03) — Process</span>
+              <span className="eyebrow">Process</span>
             </Reveal>
             <Reveal delay={80}>
               <h2 className="mt-6 font-display font-extrabold text-[#1A1C1E] tracking-[-0.04em] leading-[0.95] text-[clamp(2.5rem,5vw,4.75rem)]">

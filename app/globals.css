@@ -681,3 +681,32 @@ html {
     animation: none;
   }
 }
+
+/* Services "See more" toggle: plus turns into a close mark when expanded */
+.services-toggle {
+  transition:
+    background-color 200ms ease,
+    transform 160ms var(--ease-out-strong);
+}
+
+.services-toggle:active {
+  transform: scale(0.99);
+}
+
+.services-toggle-icon {
+  transition: transform 260ms var(--ease-out-strong), background-color 200ms ease;
+}
+
+.services-toggle[aria-expanded='true'] .services-toggle-icon {
+  transform: rotate(45deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .services-toggle:hover {
+    background-color: #FFFFFF;
+  }
+
+  .services-toggle:hover .services-toggle-icon {
+    background-color: #8B5D36;
+  }
+}
